@@ -1,0 +1,4 @@
+.idea
+.venv
+tests
+**/.ipynb_checkpoints/*
