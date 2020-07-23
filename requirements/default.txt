@@ -1,1 +1,2 @@
-apache-airflow[celery,crypto,hive,password,postgres,s3,slack,gcp]==1.10.10
+# apache-airflow[celery,crypto,hive,password,postgres,s3,slack,gcp]==1.10.10
+boto3
