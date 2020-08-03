@@ -19,13 +19,7 @@ def task_success_slack_alert(context):
     """
     conection = BaseHook.get_connection(SLACK_CONN_ID)
     slack_webhook_token = conection.password
-    slack_msg = """
-            *Status*: :white_check_mark: Task Succeeded!
-            *Task*: {task}  
-            *Dag*: {dag} 
-            *Execution Time*: {exec_date}  
-            *Log Url*: {log_url} 
-            """.format(
+    slack_msg = """*Status*: :white_check_mark: Task Succeeded!\n*Task*: {task}\n*Dag*: {dag}\n*Execution Time*: {exec_date}\n*Log Url*: {log_url}""".format(
         task=context.get("task_instance").task_id,
         dag=context.get("task_instance").dag_id,
         ti=context.get("task_instance"),
@@ -58,13 +52,7 @@ def task_fail_slack_alert(context):
     """
     conection = BaseHook.get_connection(SLACK_CONN_ID)
     slack_webhook_token = conection.password
-    slack_msg = """
-            *Status*: :x: Task Failed 
-            *Task*: {task}  
-            *Dag*: {dag} 
-            *Execution Time*: {exec_date}  
-            *Log Url*: {log_url} 
-            """.format(
+    slack_msg = """*Status*: :x: Task Failed\n*Task*: {task}\n*Dag*: {dag}\n*Execution Time*: {exec_date}\n*Log Url*: {log_url}""".format(
         task=context.get("task_instance").task_id,
         dag=context.get("task_instance").dag_id,
         ti=context.get("task_instance"),
