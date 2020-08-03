@@ -17,9 +17,10 @@ def task_success_slack_alert(context):
     Returns:
         None: Calls the SlackWebhookOperator execute method internally
     """
-    slack_webhook_token = BaseHook.get_connection(SLACK_CONN_ID).password
+    conection = BaseHook.get_connection(SLACK_CONN_ID)
+    slack_webhook_token = conection.password
     slack_msg = """
-            :large_blue_circle: Task Succeeded! 
+            *Status*: :white_check_mark: Task Succeeded!
             *Task*: {task}  
             *Dag*: {dag} 
             *Execution Time*: {exec_date}  
@@ -32,12 +33,16 @@ def task_success_slack_alert(context):
         log_url=context.get("task_instance").log_url,
     )
 
+    if conection.extra_dejson.get('users'):
+        slack_msg = slack_msg + '\n' + conection.extra_dejson.get('users')
+
     success_alert = SlackWebhookOperator(
-        task_id="slack_test",
+        task_id="slack_task",
         http_conn_id="slack",
         webhook_token=slack_webhook_token,
         message=slack_msg,
         username="airflow",
+        link_names=True
     )
 
     return success_alert.execute(context=context)
@@ -51,9 +56,10 @@ def task_fail_slack_alert(context):
     Returns:
         None: Calls the SlackWebhookOperator execute method internally
     """
-    slack_webhook_token = BaseHook.get_connection(SLACK_CONN_ID).password
+    conection = BaseHook.get_connection(SLACK_CONN_ID)
+    slack_webhook_token = conection.password
     slack_msg = """
-            :red_circle: Task Failed. 
+            *Status*: :x: Task Failed 
             *Task*: {task}  
             *Dag*: {dag} 
             *Execution Time*: {exec_date}  
@@ -65,13 +71,16 @@ def task_fail_slack_alert(context):
         exec_date=context.get("execution_date"),
         log_url=context.get("task_instance").log_url,
     )
+    if conection.extra_dejson.get('users'):
+        slack_msg = slack_msg + '\n' + conection.extra_dejson.get('users')
 
     failed_alert = SlackWebhookOperator(
-        task_id="slack_test",
+        task_id="slack_task",
         http_conn_id="slack",
         webhook_token=slack_webhook_token,
         message=slack_msg,
         username="airflow",
+        link_names=True
     )
 
     return failed_alert.execute(context=context)
