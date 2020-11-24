@@ -1,10 +1,10 @@
 from airflow.sensors.base_sensor_operator import BaseSensorOperator
 from airflow.utils.decorators import apply_defaults
 
-from airflow_add_ons.hooks.imap_hooks import ImapHook
+from airflow_add_ons.hooks.gmail_imap_hooks import GmailImapHook
 
 
-class ImapEmailSensor(BaseSensorOperator):
+class GmailImapEmailSensor(BaseSensorOperator):
     """
     Waits for a specific email on a mail server.
 
@@ -28,7 +28,7 @@ class ImapEmailSensor(BaseSensorOperator):
                  conn_id='gmail_imap',
                  *args,
                  **kwargs):
-        super(ImapEmailSensor, self).__init__(*args, **kwargs)
+        super(GMAILEmailSensor, self).__init__(*args, **kwargs)
         self.mail_filter = mail_filter
         self.latest_only = latest_only
         self.mail_folder = mail_folder
@@ -45,8 +45,8 @@ class ImapEmailSensor(BaseSensorOperator):
         """
         self.log.info('Poking for %s', self.mail_filter)
 
-        with ImapHook(imap_conn_id=self.conn_id) as imap_hook:
-            return imap_hook.mail_exists(
+        with GmailImapHook(imap_conn_id=self.conn_id) as gmail_imap_hook:
+            return gmail_imap_hook.mail_exists(
                 mail_filter=self.mail_filter,
                 mail_folder=self.mail_folder,
                 latest_only=self.latest_only

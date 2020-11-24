@@ -1,18 +1,8 @@
-from airflow.hooks.S3_hook import S3Hook
-from airflow.models import BaseOperator
-from airflow.utils.decorators import apply_defaults
-import email
 from imapclient import imapclient
-import os
-import re
-from six import moves, iteritems, text_type, integer_types, PY3, binary_type, iterbytes
-
-
-from airflow import AirflowException, LoggingMixin
 from airflow.hooks.base_hook import BaseHook
 
 
-class ImapHook(BaseHook):
+class GmailImapHook(BaseHook):
     """
     This hook connects to a mail server by using the imap protocol.
 
