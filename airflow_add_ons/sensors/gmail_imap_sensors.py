@@ -28,7 +28,7 @@ class GmailImapEmailSensor(BaseSensorOperator):
                  conn_id='gmail_imap',
                  *args,
                  **kwargs):
-        super(GMAILEmailSensor, self).__init__(*args, **kwargs)
+        super(GmailImapEmailSensor, self).__init__(*args, **kwargs)
         self.mail_filter = mail_filter
         self.latest_only = latest_only
         self.mail_folder = mail_folder
