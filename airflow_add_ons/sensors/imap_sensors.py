@@ -1,0 +1,54 @@
+from airflow.sensors.base_sensor_operator import BaseSensorOperator
+from airflow.utils.decorators import apply_defaults
+
+from airflow_add_ons.hooks.imap_hooks import ImapHook
+
+
+class ImapEmailSensor(BaseSensorOperator):
+    """
+    Waits for a specific email on a mail server.
+
+    :param mail_filter: Email filter to check email existence
+    :type latest_only: Check if only last email is present
+    :param mail_folder: The mail folder in where to search for the attachment.
+                        The default value is 'INBOX'.
+    :type mail_folder: str
+    :param conn_id: The connection to run the sensor against.
+                    The default value is 'imap_default'.
+    :type conn_id: str
+    """
+
+    template_fields = ('mail_filter',)
+
+    @apply_defaults
+    def __init__(self,
+                 mail_filter,
+                 latest_only=True,
+                 mail_folder='INBOX',
+                 conn_id='gmail_imap',
+                 *args,
+                 **kwargs):
+        super(ImapEmailSensor, self).__init__(*args, **kwargs)
+        self.mail_filter = mail_filter
+        self.latest_only = latest_only
+        self.mail_folder = mail_folder
+        self.conn_id = conn_id
+
+    def poke(self, context):
+        """
+        Pokes for a mail on the mail server.
+
+        :param context: The context that is being provided when poking.
+        :type context: dict
+        :return: True if attachment with the given name is present and False if not.
+        :rtype: bool
+        """
+        self.log.info('Poking for %s', self.mail_filter)
+
+        with ImapHook(imap_conn_id=self.conn_id) as imap_hook:
+            return imap_hook.mail_exists(
+                mail_filter=self.mail_filter,
+                mail_folder=self.mail_folder,
+                latest_only=self.latest_only
+
+            )
