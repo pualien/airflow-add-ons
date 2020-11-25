@@ -1,3 +1,5 @@
+import imaplib
+
 from imapclient import imapclient
 from airflow.hooks.base_hook import BaseHook
 
@@ -52,7 +54,7 @@ class GmailImapHook(BaseHook):
 
         if not self.mail_client:
             conn = self.get_connection(self.imap_conn_id)
-            self.mail_client = imapclient.IMAPClient(conn.host)
+            self.mail_client = imaplib.IMAP4_SSL(conn.host)
             self.mail_client.login(conn.login, conn.password)
 
         return self
@@ -69,19 +71,9 @@ class GmailImapHook(BaseHook):
         :rtype: bool
         """
         self.get_conn()
-        mails = self._retrieve_mails(
-            latest_only=latest_only,
-            mail_folder=mail_folder,
-            mail_filter=mail_filter)
+        self.mail_client.select_folder('inbox')
+
+        self.mail_client.select('Inbox')
+        status, mails = self.mail_client.search(None, *mail_filter)
         self.close()
         return len(mails) > 0
-
-    def _retrieve_mails(self, latest_only, mail_folder, mail_filter):
-        mails = []
-
-        self.mail_client.select_folder(mail_folder)
-        for mail in self.mail_client.gmail_search(mail_filter, 'UTF-8'):
-            mails.append(mail)
-            if latest_only:
-                break
-        return mails
