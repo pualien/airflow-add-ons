@@ -19,11 +19,22 @@ class GmailImapHook(BaseHook):
         self.mail_client = None
 
     def __enter__(self):
-        return self.get_conn()
+        pass
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        # self.mail_client.logout()
-        pass
+        """Logout and closes the connection when exiting the context manager.
+
+        All exceptions during logout and connection shutdown are caught because
+        an error here usually means the connection was already closed.
+        """
+        try:
+            self.mail_client.logout()
+        except Exception:
+            try:
+                self.mail_client.shutdown()
+            except Exception as e:
+                print("Could not close the connection cleanly: %s", e)
+        self.mail_client = None
 
     def get_conn(self):
         """
@@ -54,6 +65,7 @@ class GmailImapHook(BaseHook):
         :returns: True if there is an attachment with the given name and False if not.
         :rtype: bool
         """
+        self.get_conn()
         mails = self._retrieve_mails(
             latest_only=latest_only,
             mail_folder=mail_folder,
