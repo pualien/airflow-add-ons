@@ -73,11 +73,11 @@ class GmailImapHook(BaseHook):
         """
         self.get_conn()
 
-        self.mail_client.select('Inbox')
+        self.mail_client.select('"[Gmail]/All Mail"')
         if isinstance(mail_filter, list):
-            status, mails = self.mail_client.search(None, *mail_filter)
+            status, mails = self.mail_client.uid.search(None, *mail_filter)
         else:
-            status, mails = self.mail_client.search(None, mail_filter)
+            status, mails = self.mail_client.uid.search(None, mail_filter)
         print(len(mails))
         print(status)
         # self.close()
