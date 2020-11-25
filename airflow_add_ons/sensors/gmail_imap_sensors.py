@@ -46,7 +46,7 @@ class GmailImapEmailSensor(BaseSensorOperator):
         self.log.info('Poking for %s', self.mail_filter)
 
         gmail_imap_hook = GmailImapHook(imap_conn_id=self.conn_id)
-        gmail_imap_hook.mail_exists(
+        return gmail_imap_hook.mail_exists(
                 mail_filter=self.mail_filter,
                 mail_folder=self.mail_folder,
                 latest_only=self.latest_only
