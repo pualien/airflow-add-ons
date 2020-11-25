@@ -72,7 +72,6 @@ class GmailImapHook(BaseHook):
         :rtype: bool
         """
         self.get_conn()
-        self.mail_client.select_folder('inbox')
 
         self.mail_client.select('Inbox')
         status, mails = self.mail_client.search(None, *mail_filter)
