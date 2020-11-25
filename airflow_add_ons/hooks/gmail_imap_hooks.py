@@ -1,12 +1,10 @@
 import imaplib
-
-from imapclient import imapclient
 from airflow.hooks.base_hook import BaseHook
 
 
 class GmailImapHook(BaseHook):
     """
-    This hook connects to a mail server by using the imap protocol.
+    This hook connects to a Gmail server by using the imap protocol.
 
     .. note:: Please call this Hook as context manager via `with`
         to automatically open and close the connection to the mail server.
@@ -60,7 +58,7 @@ class GmailImapHook(BaseHook):
 
         return self
 
-    def mail_exists(self, mail_folder='"[Gmail]/All Mail"', mail_filter='', latest_only=True):
+    def mail_exists(self, mail_folder='"[Gmail]/All Mail"', mail_filter=''):
         """
         Checks the mail folder for mails containing attachments with the given name.
 
@@ -74,14 +72,15 @@ class GmailImapHook(BaseHook):
         self.get_conn()
 
         self.mail_client.select(mail_folder)
-        if isinstance(mail_filter, list):
-            # status, mails = self.mail_client.uid.search(None, 'X-GM-RAW', *mail_filter)
-            status, mails = self.mail_client.search(None, 'X-GM-RAW', *mail_filter)
-        else:
-            # status, mails = self.mail_client.uid.search(None, 'X-GM-RAW', mail_filter)
-            status, mails = self.mail_client.search(None, 'X-GM-RAW', mail_filter)
-        print(len(mails))
-        print(mails)
-        print(status)
-        # self.close()
-        return len(mails) > 0
+
+        status, mails = self.mail_client.search(None, mail_filter)
+
+        emails_found = mails[0].split()
+        for num in emails_found:
+            typ, data = self.mail_client.fetch(num, '(RFC822)')
+            self.log.info('Message {} {}'.format(num, data[0][1]))
+
+        self.close()
+        return len(emails_found) > 0
+
+

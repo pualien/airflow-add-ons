@@ -9,7 +9,6 @@ class GmailImapEmailSensor(BaseSensorOperator):
     Waits for a specific email on a mail server.
 
     :param mail_filter: Email filter to check email existence
-    :type latest_only: Check if only last email is present
     :param mail_folder: The mail folder in where to search for the attachment.
                         The default value is 'INBOX'.
     :type mail_folder: str
@@ -23,14 +22,12 @@ class GmailImapEmailSensor(BaseSensorOperator):
     @apply_defaults
     def __init__(self,
                  mail_filter,
-                 latest_only=True,
                  mail_folder='"[Gmail]/All Mail"',
                  conn_id='gmail_imap',
                  *args,
                  **kwargs):
         super(GmailImapEmailSensor, self).__init__(*args, **kwargs)
         self.mail_filter = mail_filter
-        self.latest_only = latest_only
         self.mail_folder = mail_folder
         self.conn_id = conn_id
 
@@ -43,11 +40,10 @@ class GmailImapEmailSensor(BaseSensorOperator):
         :return: True if attachment with the given name is present and False if not.
         :rtype: bool
         """
-        self.log.info('Poking for %s', self.mail_filter)
+        self.log.info('Sensor checks existence of : %s', self.mail_filter)
 
         gmail_imap_hook = GmailImapHook(imap_conn_id=self.conn_id)
         return gmail_imap_hook.mail_exists(
                 mail_filter=self.mail_filter,
                 mail_folder=self.mail_folder,
-                latest_only=self.latest_only
             )
