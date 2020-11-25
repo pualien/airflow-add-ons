@@ -81,6 +81,7 @@ class GmailImapHook(BaseHook):
             # status, mails = self.mail_client.uid.search(None, 'X-GM-RAW', mail_filter)
             status, mails = self.mail_client.search(None, 'X-GM-RAW', mail_filter)
         print(len(mails))
+        print(mails)
         print(status)
         # self.close()
         return len(mails) > 0
