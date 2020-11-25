@@ -22,7 +22,8 @@ class GmailImapHook(BaseHook):
         return self.get_conn()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.mail_client.logout()
+        # self.mail_client.logout()
+        pass
 
     def get_conn(self):
         """

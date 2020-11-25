@@ -50,5 +50,4 @@ class GmailImapEmailSensor(BaseSensorOperator):
                 mail_filter=self.mail_filter,
                 mail_folder=self.mail_folder,
                 latest_only=self.latest_only
-
             )
