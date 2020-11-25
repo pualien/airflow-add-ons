@@ -76,7 +76,7 @@ class GmailImapHook(BaseHook):
         self.mail_client.select(mail_folder)
         if isinstance(mail_filter, list):
             # status, mails = self.mail_client.uid.search(None, 'X-GM-RAW', *mail_filter)
-            status, mails = self.mail_client.search(None, 'X-GM-RAW', mail_filter)
+            status, mails = self.mail_client.search(None, 'X-GM-RAW', *mail_filter)
         else:
             # status, mails = self.mail_client.uid.search(None, 'X-GM-RAW', mail_filter)
             status, mails = self.mail_client.search(None, 'X-GM-RAW', mail_filter)
