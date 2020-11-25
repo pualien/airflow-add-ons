@@ -60,7 +60,7 @@ class GmailImapHook(BaseHook):
 
         return self
 
-    def mail_exists(self, mail_folder='INBOX', mail_filter='', latest_only=True):
+    def mail_exists(self, mail_folder='"[Gmail]/All Mail"', mail_filter='', latest_only=True):
         """
         Checks the mail folder for mails containing attachments with the given name.
 
@@ -73,6 +73,7 @@ class GmailImapHook(BaseHook):
         """
         self.get_conn()
 
+        self.mail_client.select(mail_folder)
         if isinstance(mail_filter, list):
             status, mails = self.mail_client.uid.search(None, 'X-GM-RAW', *mail_filter)
         else:
