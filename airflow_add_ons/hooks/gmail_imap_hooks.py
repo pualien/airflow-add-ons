@@ -27,6 +27,9 @@ class GmailImapHook(BaseHook):
         All exceptions during logout and connection shutdown are caught because
         an error here usually means the connection was already closed.
         """
+        self.close()
+
+    def close(self):
         try:
             self.mail_client.logout()
         except Exception:
@@ -70,6 +73,7 @@ class GmailImapHook(BaseHook):
             latest_only=latest_only,
             mail_folder=mail_folder,
             mail_filter=mail_filter)
+        self.close()
         return len(mails) > 0
 
     def _retrieve_mails(self, latest_only, mail_folder, mail_filter):
