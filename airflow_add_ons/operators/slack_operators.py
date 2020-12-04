@@ -6,7 +6,8 @@ from airflow.hooks.base_hook import BaseHook
 try:
     from airflow.contrib.operators.slack_webhook_operator import SlackWebhookOperator
 except Exception:
-    from airflow.providers.slack_webhook_operator import SlackWebhookOperator
+    from airflow.providers.slack.operators.slack_webhook import SlackWebhookOperator
+
 
 # This should match the connection ID created in the Medium article
 SLACK_CONN_ID = "slack"
