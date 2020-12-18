@@ -1,5 +1,9 @@
-from airflow.contrib.hooks.gcs_hook import GoogleCloudStorageHook
-from airflow.contrib.sensors.gcs_sensor import GoogleCloudStorageObjectSensor
+try:
+    from airflow.providers.google.cloud.hooks.gcs import GCSHook as GoogleCloudStorageHook
+    from airflow.providers.google.cloud.sensors.gcs import GoogleCloudStorageObjectSensor
+except Exception:
+    from airflow.contrib.hooks.gcs_hook import GoogleCloudStorageHook
+    from airflow.contrib.sensors.gcs_sensor import GoogleCloudStorageObjectSensor
 from airflow.utils.decorators import apply_defaults
 
 

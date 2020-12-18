@@ -1,6 +1,14 @@
-from airflow.contrib.hooks.aws_glue_catalog_hook import AwsGlueCatalogHook
-from airflow.sensors.base_sensor_operator import BaseSensorOperator
-from airflow.utils import apply_defaults
+
+try:
+    from airflow.providers.amazon.aws.hooks.glue_catalog import AwsGlueCatalogHook
+    from airflow.sensors.base import BaseSensorOperator
+except Exception:
+    from airflow.contrib.hooks.aws_glue_catalog_hook import AwsGlueCatalogHook
+    from airflow.sensors.base_sensor_operator import BaseSensorOperator
+try:
+    from airflow.utils.decorators import apply_defaults
+except Exception:
+    from airflow.utils import apply_defaults
 from airflow.exceptions import AirflowException
 
 

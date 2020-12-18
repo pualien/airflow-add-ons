@@ -1,7 +1,9 @@
 from airflow.plugins_manager import AirflowPlugin
 from airflow.models import BaseOperator
-from airflow.utils import apply_defaults
-
+try:
+    from airflow.utils.decorators import apply_defaults
+except Exception:
+    from airflow.utils import apply_defaults
 from zipfile import ZipFile
 import os
 import logging

@@ -4,9 +4,9 @@ utilize the Slack operators. Extended from the medium article found in the READM
 """
 from airflow.hooks.base_hook import BaseHook
 try:
-    from airflow.contrib.operators.slack_webhook_operator import SlackWebhookOperator
-except Exception:
     from airflow.providers.slack.operators.slack_webhook import SlackWebhookOperator
+except Exception:
+    from airflow.contrib.operators.slack_webhook_operator import SlackWebhookOperator
 
 
 # This should match the connection ID created in the Medium article

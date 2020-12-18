@@ -1,5 +1,11 @@
-from airflow.sensors.base_sensor_operator import BaseSensorOperator
-from airflow.utils.decorators import apply_defaults
+try:
+    from airflow.sensors.base import BaseSensorOperator
+except Exception:
+    from airflow.sensors.base_sensor_operator import BaseSensorOperator
+try:
+    from airflow.utils.decorators import apply_defaults
+except Exception:
+    from airflow.utils import apply_defaults
 
 from airflow_add_ons.hooks.gmail_imap_hooks import GmailImapHook
 

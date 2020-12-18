@@ -1,6 +1,9 @@
 from airflow.hooks.base_hook import BaseHook
 from airflow.models import BaseOperator
-from airflow.utils import apply_defaults
+try:
+    from airflow.utils.decorators import apply_defaults
+except Exception:
+    from airflow.utils import apply_defaults
 from airflow.exceptions import AirflowException
 from botocore.config import Config
 

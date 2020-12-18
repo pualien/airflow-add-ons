@@ -1,5 +1,13 @@
-from airflow.hooks.S3_hook import S3Hook
-from airflow.operators.sensors import S3KeySensor
+try:
+    from airflow.providers.amazon.aws.sensors.s3_key import S3KeySensor
+    from airflow.providers.amazon.aws.hooks.s3 import S3Hook
+except Exception:
+    from airflow.hooks.S3_hook import S3Hook
+    try:
+        from airflow.operators.sensors import S3KeySensor
+    except ImportError:
+        pass
+
 
 
 class ReturnS3KeySensor(S3KeySensor):
