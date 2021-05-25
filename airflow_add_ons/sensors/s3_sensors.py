@@ -9,7 +9,6 @@ except Exception:
         pass
 
 
-
 class ReturnS3KeySensor(S3KeySensor):
 
     def __init__(self,
