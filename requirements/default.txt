@@ -2,6 +2,6 @@ apache-airflow>=1.10.10
 boto3>=1.18.58
 IMAPClient==2.1.0
 apache-airflow-providers-google>=6.0.0
-apache-airflow-providers-amazon==2.3.0
+apache-airflow-providers-amazon==2.4.0
 apache-airflow-providers-http==2.0.1
 apache-airflow-providers-slack==4.1.0
