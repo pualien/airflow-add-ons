@@ -2,11 +2,9 @@
 Possibly could use a better name. These are instead alert functions that
 utilize the Slack operators. Extended from the medium article found in the README.
 """
-from airflow.hooks.base_hook import BaseHook
-try:
-    from airflow.providers.slack.operators.slack_webhook import SlackWebhookOperator
-except Exception:
-    from airflow.contrib.operators.slack_webhook_operator import SlackWebhookOperator
+from airflow.hooks.base import BaseHook
+from airflow.providers.slack.operators.slack_webhook import SlackWebhookOperator
+
 
 
 # This should match the connection ID created in the Medium article

@@ -1,8 +1,5 @@
 import imaplib
-try:
-    from airflow.hooks.base import BaseHook
-except Exception:
-    from airflow.hooks.base_hook import BaseHook
+from airflow.hooks.base import BaseHook
 
 
 class GmailImapHook(BaseHook):

@@ -1,13 +1,9 @@
-try:
-    from airflow.providers.google.cloud.hooks.gcs import GCSHook as GoogleCloudStorageHook
-    from airflow.providers.google.cloud.sensors.gcs import GoogleCloudStorageObjectSensor
-except Exception:
-    from airflow.contrib.hooks.gcs_hook import GoogleCloudStorageHook
-    from airflow.contrib.sensors.gcs_sensor import GoogleCloudStorageObjectSensor
-from airflow.utils.decorators import apply_defaults
+from airflow.providers.google.cloud.sensors.gcs import GCSObjectExistenceSensor
+from airflow.providers.google.cloud.hooks.gcs import GCSHook as GoogleCloudStorageHook
 
 
-class GoogleCloudStorageObjectKeySensor(GoogleCloudStorageObjectSensor):
+
+class GoogleCloudStorageObjectKeySensor(GCSObjectExistenceSensor):
     """
     Checks for the existence of a file in Google Cloud Storage.
 
@@ -28,11 +24,9 @@ class GoogleCloudStorageObjectKeySensor(GoogleCloudStorageObjectSensor):
 
     ui_color = '#f0eee4'
 
-
-    @apply_defaults
     def __init__(self,
                  bucket,
-                 object,  # pylint:disable=redefined-builtin
+                 object,
                  google_cloud_conn_id='google_cloud_default',
                  delegate_to=None,
                  *args, **kwargs):

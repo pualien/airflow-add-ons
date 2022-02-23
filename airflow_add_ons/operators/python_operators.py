@@ -1,7 +1,4 @@
-try:
-    from airflow.operators.python import PythonOperator
-except Exception:
-    from airflow.operators.python_operator import PythonOperator
+from airflow.operators.python import PythonOperator
 
 
 class TemplatedPythonOperator(PythonOperator):

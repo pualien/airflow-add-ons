@@ -1,11 +1,7 @@
 import tempfile
 
-try:
-    from airflow.providers.google.cloud.hooks.gcs import GCSHook as GoogleCloudStorageHook
-except Exception:
-    from airflow.contrib.hooks.gcs_hook import GoogleCloudStorageHook
+from airflow.providers.google.cloud.hooks.gcs import GCSHook as GoogleCloudStorageHook
 from airflow.models import BaseOperator
-from airflow.utils.decorators import apply_defaults
 
 
 class EmptyFileToGoogleCloudStorageOperator(BaseOperator):
@@ -30,7 +26,6 @@ class EmptyFileToGoogleCloudStorageOperator(BaseOperator):
     """
     template_fields = ('src', 'dst', 'bucket')
 
-    @apply_defaults
     def __init__(self,
                  dst,
                  bucket,

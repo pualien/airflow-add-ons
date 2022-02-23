@@ -1,14 +1,5 @@
-
-try:
-    from airflow.providers.amazon.aws.hooks.glue_catalog import AwsGlueCatalogHook
-    from airflow.sensors.base import BaseSensorOperator
-except Exception:
-    from airflow.contrib.hooks.aws_glue_catalog_hook import AwsGlueCatalogHook
-    from airflow.sensors.base_sensor_operator import BaseSensorOperator
-try:
-    from airflow.utils.decorators import apply_defaults
-except Exception:
-    from airflow.utils import apply_defaults
+from airflow.providers.amazon.aws.hooks.glue_catalog import AwsGlueCatalogHook
+from airflow.sensors.base import BaseSensorOperator
 from airflow.exceptions import AirflowException
 
 
@@ -36,7 +27,6 @@ class GlueJobFlowSensor(BaseSensorOperator):
     template_fields = ('job_name', 'job_run_id')
     template_ext = ()
 
-    @apply_defaults
     def __init__(self,
                  aws_conn_id,
                  job_name,

@@ -1,9 +1,5 @@
-from airflow.hooks.base_hook import BaseHook
+from airflow.hooks.base import BaseHook
 from airflow.models import BaseOperator
-try:
-    from airflow.utils.decorators import apply_defaults
-except Exception:
-    from airflow.utils import apply_defaults
 from botocore.config import Config
 import boto3
 
@@ -11,7 +7,6 @@ import boto3
 class GlueCrawlerOperator(BaseOperator):
     template_fields = ('glue_crawler_name',)
 
-    @apply_defaults
     def __init__(
         self,
         glue_crawler_name,
@@ -312,7 +307,6 @@ class AWSGlueJobOperator(BaseOperator):
     template_ext = ()
     ui_color = '#ededed'
 
-    @apply_defaults
     def __init__(self,
                  job_name='aws_glue_default_job',
                  job_desc='AWS Glue Job with Airflow',

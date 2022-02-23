@@ -1,9 +1,5 @@
-from airflow.hooks.base_hook import BaseHook
+from airflow.hooks.base import BaseHook
 from airflow.models import BaseOperator
-try:
-    from airflow.utils.decorators import apply_defaults
-except Exception:
-    from airflow.utils import apply_defaults
 from botocore.config import Config
 
 import boto3
@@ -12,7 +8,6 @@ import boto3
 class AthenaQueryOperator(BaseOperator):
     template_fields = ('query',)
 
-    @apply_defaults
     def __init__(
         self,
         query,

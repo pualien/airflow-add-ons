@@ -1,9 +1,5 @@
 from airflow.plugins_manager import AirflowPlugin
 from airflow.models import BaseOperator
-try:
-    from airflow.utils.decorators import apply_defaults
-except Exception:
-    from airflow.utils import apply_defaults
 from zipfile import ZipFile
 import os
 import logging
@@ -22,7 +18,6 @@ class ZipOperator(BaseOperator):
     template_ext = []
     ui_color = '#ffffff'  # ZipOperator's Main Color: white  # todo: find better color
 
-    @apply_defaults
     def __init__(
             self,
             path_to_file_to_zip,
@@ -89,7 +84,6 @@ class UnzipOperator(BaseOperator):
     template_ext = []
     ui_color = '#ffffff'  # UnzipOperator's Main Color: white  # todo: find better color
 
-    @apply_defaults
     def __init__(
             self,
             path_to_zip_file,
