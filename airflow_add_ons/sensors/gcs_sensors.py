@@ -2,7 +2,6 @@ from airflow.providers.google.cloud.sensors.gcs import GCSObjectExistenceSensor
 from airflow.providers.google.cloud.hooks.gcs import GCSHook as GoogleCloudStorageHook
 
 
-
 class GoogleCloudStorageObjectKeySensor(GCSObjectExistenceSensor):
     """
     Checks for the existence of a file in Google Cloud Storage.
