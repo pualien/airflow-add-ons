@@ -26,26 +26,26 @@ class GoogleCloudStorageObjectKeySensor(GCSObjectExistenceSensor):
     def __init__(self,
                  bucket,
                  object,
-                 google_cloud_conn_id='google_cloud_default',
+                 gcp_conn_id='google_cloud_default',
                  delegate_to=None,
                  *args, **kwargs):
 
         super(GoogleCloudStorageObjectKeySensor, self).__init__(*args, **kwargs)
         self.bucket = bucket
         self.object = object
-        self.google_cloud_conn_id = google_cloud_conn_id
+        self.gcp_conn_id = gcp_conn_id
         self.delegate_to = delegate_to
 
     def poke(self, context):
         self.log.info('Sensor checks existence of : %s, %s', self.bucket, self.object)
         hook = GoogleCloudStorageHook(
-            google_cloud_storage_conn_id=self.google_cloud_conn_id,
+            gcp_conn_id=self.gcp_conn_id,
             delegate_to=self.delegate_to)
         return hook.exists(self.bucket, self.object)
 
     def get_object_key(self):
         hook = GoogleCloudStorageHook(
-            google_cloud_storage_conn_id=self.google_cloud_conn_id,
+            gcp_conn_id=self.gcp_conn_id,
             delegate_to=self.delegate_to)
         client = hook.get_conn()
         bucket = client.bucket(self.bucket)
