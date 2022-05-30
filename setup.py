@@ -27,7 +27,7 @@ def reqs(*f):
 
 
 setup(name='airflow-add-ons',
-      version='0.2.8',
+      version='0.2.9',
       url='https://github.com/pualien/airflow-add-ons',
       license='MIT',
       author='Matteo Senardi',

@@ -30,7 +30,7 @@ class EmptyFileToGoogleCloudStorageOperator(BaseOperator):
                  dst,
                  bucket,
                  src='',
-                 google_cloud_storage_conn_id='google_cloud_default',
+                 gcp_conn_id='google_cloud_default',
                  mime_type='application/octet-stream',
                  delegate_to=None,
                  gzip=False,
@@ -40,7 +40,7 @@ class EmptyFileToGoogleCloudStorageOperator(BaseOperator):
         self.src = src
         self.dst = dst
         self.bucket = bucket
-        self.google_cloud_storage_conn_id = google_cloud_storage_conn_id
+        self.gcp_conn_id = gcp_conn_id
         self.mime_type = mime_type
         self.delegate_to = delegate_to
         self.gzip = gzip
@@ -50,7 +50,7 @@ class EmptyFileToGoogleCloudStorageOperator(BaseOperator):
         Uploads the file to Google cloud storage
         """
         hook = GoogleCloudStorageHook(
-            google_cloud_storage_conn_id=self.google_cloud_storage_conn_id,
+            gcp_conn_id=self.gcp_conn_id,
             delegate_to=self.delegate_to)
 
         with tempfile.NamedTemporaryFile('w', suffix=self.src) as temp:
