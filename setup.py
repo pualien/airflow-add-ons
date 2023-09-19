@@ -25,8 +25,9 @@ def _reqs(*f):
 def reqs(*f):
     return [req for subreq in _reqs(*f) for req in subreq]
 
+
 setup(name='airflow-add-ons',
-      version='0.2.12',
+      version='0.2.13',
       url='https://github.com/pualien/airflow-add-ons',
       license='MIT',
       author='Matteo Senardi',
