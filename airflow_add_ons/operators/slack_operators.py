@@ -38,7 +38,8 @@ def task_success_slack_alert(context):
         webhook_token=slack_webhook_token,
         message=slack_msg,
         username="airflow",
-        link_names=True
+        link_names=True,
+        slack_webhook_conn_id="slack"
     )
 
     return success_alert.execute(context=context)
@@ -70,7 +71,8 @@ def task_fail_slack_alert(context):
         webhook_token=slack_webhook_token,
         message=slack_msg,
         username="airflow",
-        link_names=True
+        link_names=True,
+        slack_webhook_conn_id="slack"
     )
 
     return failed_alert.execute(context=context)
