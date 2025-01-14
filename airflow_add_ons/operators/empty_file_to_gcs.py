@@ -19,8 +19,8 @@ class EmptyFileToGoogleCloudStorageOperator(BaseOperator):
     :type google_cloud_storage_conn_id: str
     :param mime_type: The mime-type string
     :type mime_type: str
-    :param delegate_to: The account to impersonate, if any
-    :type delegate_to: str
+    :param impersonation_chain: The account to impersonate, if any
+    :type impersonation_chain: str
     :param gzip: Allows for file to be compressed and uploaded as gzip
     :type gzip: bool
     """
@@ -32,7 +32,7 @@ class EmptyFileToGoogleCloudStorageOperator(BaseOperator):
                  src='',
                  gcp_conn_id='google_cloud_default',
                  mime_type='application/octet-stream',
-                 delegate_to=None,
+                 impersonation_chain=None,
                  gzip=False,
                  *args,
                  **kwargs):
@@ -42,7 +42,7 @@ class EmptyFileToGoogleCloudStorageOperator(BaseOperator):
         self.bucket = bucket
         self.gcp_conn_id = gcp_conn_id
         self.mime_type = mime_type
-        self.delegate_to = delegate_to
+        self.impersonation_chain = impersonation_chain
         self.gzip = gzip
 
     def execute(self, context):
@@ -51,7 +51,7 @@ class EmptyFileToGoogleCloudStorageOperator(BaseOperator):
         """
         hook = GoogleCloudStorageHook(
             gcp_conn_id=self.gcp_conn_id,
-            delegate_to=self.delegate_to)
+            impersonation_chain=self.impersonation_chain)
 
         with tempfile.NamedTemporaryFile('w', suffix=self.src) as temp:
             hook.upload(
